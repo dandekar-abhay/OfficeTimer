@@ -40,6 +40,8 @@ public class Main {
 			}
 		};
 		
+		// 1 sec tester
+		// timer.schedule(task, 1000, 1000 );
 		timer.schedule(task, 1000, defaultDisplayIntervalMin * 60 * 1000);
 	}
 }

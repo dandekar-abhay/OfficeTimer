@@ -7,6 +7,8 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.Callable;
 
+import static org.asd.officetimer.messages.Messages.*;
+
 /**
  * 
  * Main class encapsulating all the office timer 
@@ -22,23 +24,23 @@ import java.util.concurrent.Callable;
 
 public class OfficeTimer implements Callable<Integer> {
 	
-	final private Instant start;
+	final private Instant start, suggestedOutTime;
 	final private long mandatoryOfficeHours = 7;
 	final private long mandatoryOfficeMins = 30;
-	final private String msg = "Your today's office in-time : ";
-	final private String msg2 = "Your office check-in time is : ";
-	final private String msg3 = "You can leave from office at : ";
 	final private StringBuilder buffer = new StringBuilder();
 		
 	public OfficeTimer( ) {
 		this.start = Instant.now();
-		System.out.println(msg2 + LocalDateTime.ofInstant(start, ZoneId.systemDefault()));
-		System.out.println(msg3 + LocalDateTime.ofInstant(start.plus(mandatoryOfficeHours, ChronoUnit.HOURS).plus(mandatoryOfficeMins, ChronoUnit.MINUTES), ZoneId.systemDefault()));
+		this.suggestedOutTime = start.plus(mandatoryOfficeHours, ChronoUnit.HOURS).plus(mandatoryOfficeMins, ChronoUnit.MINUTES);
+		System.out.println(msg2 + LocalDateTime.ofInstant(start, ZoneId.systemDefault()) );
+		System.out.println(msg3 + LocalDateTime.ofInstant(suggestedOutTime, ZoneId.systemDefault()));
 	}
 	
 	public void displayOfficeInTime(){
 
 		Duration diff = Duration.between(start, Instant.now());
+		Duration remaining = Duration.between(Instant.now(), suggestedOutTime);
+		
 		buffer.setLength(0);
 		buffer.append(msg);
 		buffer.append(diff.toHours());
@@ -46,9 +48,19 @@ public class OfficeTimer implements Callable<Integer> {
 		buffer.append(diff.toMinutes() % 60);
 		buffer.append("mins ");
 		buffer.append(diff.getSeconds() % 60 );
-		buffer.append("secs");
+		buffer.append("secs ");
+		if ( Instant.now().isBefore(suggestedOutTime) ){
+			buffer.append( msg4 );
+			buffer.append(remaining.toHours());
+			buffer.append("hours ");
+			buffer.append(remaining.toMinutes() % 60);
+			buffer.append("mins ");
+			buffer.append(remaining.getSeconds() % 60 );
+			buffer.append("secs ");	
+		}else{
+			buffer.append(msg5);
+		}
 		System.out.println(buffer);
-		// System.out.println(msg + " " + diff.toMinutes() + " mins " + " OR " + ( diff.getSeconds() % 60 )  + " secs");
 	}
 
 	public Integer call() throws Exception {
