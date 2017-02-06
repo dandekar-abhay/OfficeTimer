@@ -23,12 +23,13 @@ import static org.asd.officetimer.messages.Messages.*;
 public class OfficeTimer implements Callable<Integer> {
 
 	final private Instant start, suggestedOutTime;
-	final private long mandatoryOfficeHours = 0;
-	final private long mandatoryOfficeMins = 1;
+	final private long mandatoryOfficeHours = 7;
+	final private long mandatoryOfficeMins = 30;
 	final private StringBuilder buffer = new StringBuilder();
 
-	public OfficeTimer() {
-		this.start = Instant.now();
+	public OfficeTimer(long offsetInMinutes) {
+		// Updated the offset time.
+		this.start = Instant.now().minus(offsetInMinutes, ChronoUnit.MINUTES);
 		this.suggestedOutTime = start.plus(mandatoryOfficeHours, ChronoUnit.HOURS).plus(mandatoryOfficeMins,
 				ChronoUnit.MINUTES);
 		System.out.println(msg2 + LocalDateTime.ofInstant(start, ZoneId.systemDefault()));
