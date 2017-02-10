@@ -8,12 +8,19 @@ public class Main {
 	private static int defaultDisplayIntervalMin = 1;
 	private static long defaultOffsetTimeMin = 0;
 	
+	
+	public static void help(){
+		System.out.println("Usage : java -jar officetimer-0.0.1-SNAPSHOT.jar <Interval time, default "+defaultDisplayIntervalMin+" mins> "
+				+ "<offsetTime, default "+defaultOffsetTimeMin+" mins>");
+		System.exit(-1);		
+	}
+	
 	public static void main(String[] args) throws Exception {
 
-		if (  args.length > 2 ){
-			System.out.println("Usage : java -jar officetimer-0.0.1-SNAPSHOT.jar <Interval time, default "+defaultDisplayIntervalMin+" mins> \n "
-					+ "<offsetTime, "+defaultOffsetTimeMin+">");
-			System.exit(-1);
+		if (  args.length > 2){
+			help();
+		}else if ( args.length == 1 && "--help".equals(args[0])){
+			help();
 		}
 		
 		if (args.length == 2){
