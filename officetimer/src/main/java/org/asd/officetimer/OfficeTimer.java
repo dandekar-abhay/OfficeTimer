@@ -75,7 +75,20 @@ public class OfficeTimer implements Callable<Integer> {
 					e.printStackTrace();
 				}
 			}
+			
+			Duration additionalTimeSpent = Duration.between(suggestedOutTime, Instant.now()); 
+			
 			buffer.append(msg5);
+			buffer.append(System.lineSeparator());
+			buffer.append("\t");
+			buffer.append(msg6);
+			buffer.append(additionalTimeSpent.toHours());
+			buffer.append("hours ");
+			buffer.append(additionalTimeSpent.toMinutes() % 60);
+			buffer.append("mins ");
+			buffer.append(additionalTimeSpent.getSeconds() % 60);
+			buffer.append("secs ");
+			
 		}
 		System.out.println(buffer);
 	}
