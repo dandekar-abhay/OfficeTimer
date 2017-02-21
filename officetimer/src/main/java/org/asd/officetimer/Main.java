@@ -12,6 +12,10 @@ public class Main {
 	public static void help(){
 		System.out.println("Usage : java -jar officetimer-0.0.1-SNAPSHOT.jar <Interval time, default "+defaultDisplayIntervalMin+" mins> "
 				+ "<offsetTime, default "+defaultOffsetTimeMin+" mins>");
+		
+		System.out.println("You can change the default mandatory times. Export the following env variables");
+		System.out.println("TIMER_MANDATE_HOURS=<newMandatoryHours>");
+		System.out.println("TIMER_MANDATE_MINS=<newMandatoryMinutes>");
 		System.exit(-1);		
 	}
 	
